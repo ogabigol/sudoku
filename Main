@@ -1,0 +1,78 @@
+def MostreMatriz(S, tit):
+    print("\n", tit)
+    for i in range(9):
+        print()
+        for j in range(9):
+            print(S[i][j], end = ' ')
+    print()
+
+
+
+
+# Preenche a matriz Sudoku
+def Sudoku(S, L, C):
+    livre =  False
+    pos = []
+    for i in range(L, len(S)):
+        if L == i:
+            
+            for j in range(C, len(S)):
+                if S[i][j] == 0:
+                    livre = True
+                    pos.append(i)
+                    pos.append(j)
+                    break
+        if L != i:
+            for coronavirus in range(len(S)):
+                if S[i][coronavirus] == 0:
+                    livre = True
+                    pos.append(i)
+                    pos.append(coronavirus)
+                    break
+            
+        if livre == True:
+            break
+    #print(pos)
+    if livre == False:
+        MostreMatriz(S, 'nome')
+        return
+    zero = pos[0]
+    um = pos[1]
+    naopode = []
+    lista = [1,2,3,4,5,6,7,8,9]
+    dif = []
+    for m in range(9):
+        if S[zero][m] != 0:
+            naopode.append(S[zero][m])
+    
+    for mm in range(9):
+        if S[mm][um] != 0:
+            naopode.append(S[mm][um])
+    
+    #ler quadrante
+    ql=zero//3
+    qc=um//3
+    for k in range(3 * ql, 3 * ql + 3):
+        for kk in range(3 * qc, 3 * qc + 3):
+            if S[k][kk] != S[zero][um]:
+                #print('qd', S[k][kk])
+                #print(ql)
+                naopode.append(S[k][kk])
+    
+    #diferença de listas, comparando
+    for e in lista:
+        if e not in naopode:
+            dif.append(e)
+    #modificar matriz
+    
+    #MostreMatriz(S, 'nome')
+    #print (dif)
+    #print (naopode)
+    
+    for q in dif:
+      #print ('z')
+      S[zero][um] = q
+      Sudoku(S, zero, um)
+    
+    S[zero][um] = 0
+    return
